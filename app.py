@@ -2,18 +2,17 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="Buy Signal Backtest", layout="wide")
-st.title("📈 Buy Signal Backtest App")
+st.set_page_config(page_title="Mean-reversion test by Tony", layout="wide")
+st.title("📈 Mean-reversion test by Tony")
 
 # Upload Excel file
-uploaded_file = st.file_uploader("Upload Excel file with columns: 'ticker', 'date', 'close'", type=["xlsx"])
+uploaded_file = st.file_uploader("Tải file excel lên với 3 dòng: 'ticker', 'date', 'close'", type=["xlsx"])
 
 # Sidebar: User input parameters
-st.sidebar.header("⚙️ Strategy Parameters")
+st.sidebar.header("⚙️ Thông số")
 ma_length = st.sidebar.number_input("SMA Length", min_value=10, max_value=300, value=50, step=5)
-percentage_offset = st.sidebar.number_input("Threshold Offset (%)", min_value=0.0, max_value=100.0, value=15.0, step=0.5)
-std_dev_multiplier = st.sidebar.number_input("StdDev Multiplier", min_value=0.0, max_value=5.0, value=0.0, step=0.1)
-cooldown_period = st.sidebar.number_input("Cooldown Period (days)", min_value=1, max_value=500, value=100, step=5)
+percentage_offset = st.sidebar.number_input("% giá giảm so với MA", min_value=0.0, max_value=100.0, value=15.0, step=0.5)
+cooldown_period = st.sidebar.number_input("Thời gian chờ sau mỗi lệnh (ngày)", min_value=1, max_value=500, value=100, step=5)
 
 if uploaded_file:
     try:
@@ -37,7 +36,7 @@ if uploaded_file:
                 last_buy_idx = i
 
         # Backtest logic
-        returns = {'T+90': [], 'T+180': [], 'T+360': []}
+        returns = {'T+90%': [], 'T+180%': [], 'T+360%': []}
         detailed_trades = []
         buy_signals = df[df['buy_signal']]
         buy_count = 0
@@ -50,7 +49,7 @@ if uploaded_file:
                 'Entry Date': entry_date,
                 'Entry Price': entry_price
             }
-            for label, offset in zip(['T+90', 'T+180', 'T+360'], [90, 180, 360]):
+            for label, offset in zip(['T+90%', 'T+180%', 'T+360%'], [90, 180, 360]):
                 target_idx = original_idx + offset
                 if target_idx < len(df):
                     future_price = df.loc[target_idx, 'close']
