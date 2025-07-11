@@ -48,7 +48,7 @@ if uploaded_file:
                 'Entry Date': entry_date,
                 'Entry Price': entry_price
             }
-            for label, offset in zip(['T+90%', 'T+180%', 'T+360%'], [90, 180, 360]):
+            for label, offset in zip(['T+90 (%)', 'T+180 (%)', 'T+360(%)'], [90, 180, 360]):
                 target_idx = original_idx + offset
                 if target_idx < len(df):
                     future_price = df.loc[target_idx, 'close']
@@ -63,9 +63,9 @@ if uploaded_file:
         # Summary
         summary = {
             'Số lệnh': buy_count,
-            'AVG T+90 (%)': round(np.mean(returns['T+90%']), 2) if returns['T+90%'] else 'Chưa đủ nến',
-            'AVG T+180 (%)': round(np.mean(returns['T+180%']), 2) if returns['T+180%'] else 'Chưa đủ nến',
-            'AVG T+360 (%)': round(np.mean(returns['T+360%']), 2) if returns['T+360%'] else 'Chưa đủ nến',
+            'AVG T+90 (%)': round(np.mean(returns['T+90 (%)']), 2) if returns['T+90(%)'] else 'Chưa đủ nến',
+            'AVG T+180 (%)': round(np.mean(returns['T+180 (%)']), 2) if returns['T+180 (%)'] else 'Chưa đủ nến',
+            'AVG T+360 (%)': round(np.mean(returns['T+360 (%)']), 2) if returns['T+360 (%)'] else 'Chưa đủ nến',
         }
 
         # Show summary
@@ -87,15 +87,15 @@ if uploaded_file:
         # Display styled trade log
         st.subheader("📄 Chi tiết các lệnh mua")
         detailed_df = pd.DataFrame(detailed_trades)
-        return_cols = ['T+90%', 'T+180%', 'T+360%']
+        return_cols = ['T+90 (%)', 'T+180 (%)', 'T+360 (%)']
         styled_df = (
             detailed_df.style
             .applymap(highlight_and_format, subset=return_cols)
             .format({
                 'Entry Price': '{:.1f}',  # Entry price làm tròn 1 chữ số
-                'T+90%': format_return,
-                'T+180%': format_return,
-                'T+360%': format_return
+                'T+90 (%)': format_return,
+                'T+180 (%)': format_return,
+                'T+360 (%)': format_return
             })
         )
         st.dataframe(styled_df, use_container_width=True)
