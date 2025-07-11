@@ -87,7 +87,7 @@ if uploaded_file:
         ketqua_df = pd.DataFrame([summary])
         avg_cols = ['AVG T+90 (%)', 'AVG T+180 (%)', 'AVG T+360 (%)']
         ketqua = ketqua_df.style.applymap(highlight_and_format, subset=avg_cols)
-        st.dataframe(pd.DataFrame(ketqua), use_container_width=True)
+        st.dataframe(ketqua, use_container_width=True)
         
         # Display styled trade log
         st.subheader("📄 Chi tiết các lệnh mua")
