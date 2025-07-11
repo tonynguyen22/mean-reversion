@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+# Format function
+        def highlight_returns(val):
+            if isinstance(val, (float, int)):
+                color = 'green' if val > 0 else 'red' if val < 0 else 'black'
+                return f'color: {color}'
+            return ''
+            
 st.set_page_config(page_title="Mean-reversion test by Tony", layout="wide")
 st.title("📈 Mean-reversion test by Tony")
 
@@ -67,7 +74,9 @@ if uploaded_file:
             'Avg T+180 Return (%)': round(np.mean(returns['T+180%']), 2) if returns['T+180%'] else 'Chưa đủ nến',
             'Avg T+360 Return (%)': round(np.mean(returns['T+360%']), 2) if returns['T+360%'] else 'Chưa đủ nến',
         }
-
+        detailed_df = pd.DataFrame(detailed_trades)
+        styled_df = detailed_df.style.applymap(highlight_returns, subset=['T+90%', 'T+180%', 'T+360%'])
+        st.dataframe(styled_df, use_container_width=True)
         # Output
         st.subheader("📊 Summary")
         st.dataframe(pd.DataFrame([summary]))
