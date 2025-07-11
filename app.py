@@ -63,9 +63,9 @@ if uploaded_file:
         # Summary
         summary = {
             'Total Trades': buy_count,
-            'Avg T+90 Return (%)': round(np.mean(returns['T+90']), 2) if returns['T+90'] else 'Chưa đủ nến',
-            'Avg T+180 Return (%)': round(np.mean(returns['T+180']), 2) if returns['T+180'] else 'Chưa đủ nến',
-            'Avg T+360 Return (%)': round(np.mean(returns['T+360']), 2) if returns['T+360'] else 'Chưa đủ nến',
+            'Avg T+90 Return (%)': round(np.mean(returns['T+90%']), 2) if returns['T+90%'] else 'Chưa đủ nến',
+            'Avg T+180 Return (%)': round(np.mean(returns['T+180%']), 2) if returns['T+180%'] else 'Chưa đủ nến',
+            'Avg T+360 Return (%)': round(np.mean(returns['T+360%']), 2) if returns['T+360%'] else 'Chưa đủ nến',
         }
 
         # Output
