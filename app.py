@@ -12,20 +12,19 @@ uploaded_file = st.file_uploader("Tải file Excel với 3 cột: 'ticker', 'dat
 st.sidebar.header("⚙️ Thông số chiến lược")
 ma_length = st.sidebar.number_input("SMA Length", min_value=10, max_value=300, value=50, step=5)
 percentage_offset = st.sidebar.number_input("% giá giảm so với SMA", min_value=0.0, max_value=100.0, value=15.0, step=0.5)
-cooldown_period = st.sidebar.number_input("Thời gian cách mỗi lệnh (ngày)", min_value=1, max_value=500, value=100, step=5)
+cooldown_period = st.sidebar.number_input("Thời gian cách mỗi lệnh (dòng)", min_value=1, max_value=500, value=100, step=5)
 
 if uploaded_file:
     try:
+        # Đọc và xử lý dữ liệu
         df = pd.read_excel(uploaded_file)
         df.columns = [col.strip().lower() for col in df.columns]
-        df['date'] = pd.to_datetime(df['date'], dayfirst=True)
         df['close'] = round(df['close'], 1)
-        
-        # Đảo ngược thứ tự dòng, không sort theo date
+
+        # Đảo ngược để dòng cuối là xa nhất trong quá khứ
         df = df[::-1].reset_index(drop=True)
 
-
-        # Tính MA và ngưỡng
+        # Tính SMA và ngưỡng mua
         df['ma'] = df['close'].rolling(ma_length).mean()
         df['threshold'] = df['ma'] * (1 - percentage_offset / 100)
         df['buy_signal'] = False
@@ -36,7 +35,7 @@ if uploaded_file:
                 df.loc[i, 'buy_signal'] = True
                 last_buy_idx = i
 
-        # Backtest logic
+        # Backtest logic (dựa theo chỉ số dòng)
         horizons = [5, 10, 15, 20, 30, 40, 50, 60]
         labels = [f'T+{h} (%)' for h in horizons]
         returns = {label: [] for label in labels}
@@ -46,18 +45,17 @@ if uploaded_file:
 
         for idx, row in buy_signals.reset_index(drop=True).iterrows():
             original_idx = buy_signals.index[idx]
-            entry_date = df.loc[original_idx, 'date']
             entry_price = df.loc[original_idx, 'close']
+            entry_date = df.loc[original_idx, 'date']
             trade_result = {
                 'Entry Date': entry_date,
                 'Entry Price': entry_price
             }
 
             for h, label in zip(horizons, labels):
-                target_date = entry_date + pd.Timedelta(days=h)
-                future_row = df[df['date'] >= target_date].head(1)
-                if not future_row.empty:
-                    future_price = future_row['close'].values[0]
+                target_idx = original_idx + h
+                if target_idx < len(df):
+                    future_price = df.loc[target_idx, 'close']
                     ret = round((future_price - entry_price) / entry_price * 100, 2)
                     returns[label].append(ret)
                     trade_result[label] = ret
@@ -102,7 +100,7 @@ if uploaded_file:
         styled_df = (
             detailed_df.style
             .applymap(highlight_and_format, subset=labels)
-            .format({**{col: format_return for col in labels}, 'Entry ccfPrice': '{:.1f}'})
+            .format({**{col: format_return for col in labels}, 'Entry Price': '{:.1f}'})
         )
         st.dataframe(styled_df, use_container_width=True)
 
