@@ -11,7 +11,7 @@ uploaded_file = st.file_uploader("Tải file Excel với 3 cột: 'ticker', 'dat
 # Sidebar: User input parameters
 st.sidebar.header("⚙️ Thông số chiến lược")
 ma_length = st.sidebar.number_input("SMA Length", min_value=10, max_value=300, value=50, step=5)
-percentage_offset = st.sidebar.number_input("% giá giảm so với MA", min_value=0.0, max_value=100.0, value=15.0, step=0.5)
+percentage_offset = st.sidebar.number_input("% giá giảm so với SMA", min_value=0.0, max_value=100.0, value=15.0, step=0.5)
 cooldown_period = st.sidebar.number_input("Thời gian cách mỗi lệnh (ngày)", min_value=1, max_value=500, value=100, step=5)
 
 if uploaded_file:
