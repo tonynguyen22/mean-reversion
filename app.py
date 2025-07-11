@@ -48,7 +48,7 @@ if uploaded_file:
                 'Entry Date': entry_date,
                 'Entry Price': entry_price
             }
-            for label, offset in zip(['T+90 (%)', 'T+180 (%)', 'T+360(%)'], [90, 180, 360]):
+            for label, offset in zip(['T+90 (%)', 'T+180 (%)', 'T+360 (%)'], [90, 180, 360]):
                 target_idx = original_idx + offset
                 if target_idx < len(df):
                     future_price = df.loc[target_idx, 'close']
