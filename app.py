@@ -56,7 +56,7 @@ if uploaded_file:
                     returns[label].append(ret)
                     trade_result[label] = ret
                 else:
-                    trade_result[label] = 'NaN'
+                    trade_result[label] = 'Chưa đủ nến'
             detailed_trades.append(trade_result)
             buy_count += 1
 
