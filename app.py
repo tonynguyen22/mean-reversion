@@ -100,7 +100,7 @@ if uploaded_file:
         styled_df = (
             detailed_df.style
             .applymap(highlight_and_format, subset=labels)
-            .format({**{col: format_return for col in labels}, 'Entry Price': '{:.1f}'})
+            .format({**{col: format_return for col in labels}, 'Entry ccfPrice': '{:.1f}'})
         )
         st.dataframe(styled_df, use_container_width=True)
 
