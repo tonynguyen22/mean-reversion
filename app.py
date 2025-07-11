@@ -3,11 +3,11 @@ import pandas as pd
 import numpy as np
 
 # Format function
-        def highlight_returns(val):
-            if isinstance(val, (float, int)):
-                color = 'green' if val > 0 else 'red' if val < 0 else 'black'
-                return f'color: {color}'
-            return ''
+def highlight_returns(val):
+    if isinstance(val, (float, int)):
+        color = 'green' if val > 0 else 'red' if val < 0 else 'black'
+        return f'color: {color}'
+    return ''
             
 st.set_page_config(page_title="Mean-reversion test by Tony", layout="wide")
 st.title("📈 Mean-reversion test by Tony")
