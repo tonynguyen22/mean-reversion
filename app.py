@@ -74,7 +74,7 @@ if uploaded_file:
         # Style functions
         def highlight_and_format(val):
             if isinstance(val, (float, int)):
-                color = 'green' if val > 0 else 'red' if val < 0 else 'black'
+                color = 'green' if val > 0 else 'red' if val < 0 else 'red'
                 return f'color: {color}; text-align: right'
             return ''
 
