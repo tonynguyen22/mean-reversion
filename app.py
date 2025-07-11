@@ -91,7 +91,12 @@ if uploaded_file:
         styled_df = (
             detailed_df.style
             .applymap(highlight_and_format, subset=return_cols)
-            .format({col: format_return for col in return_cols})
+            .format({
+                'Entry Price': '{:.1f}',  # Entry price làm tròn 1 chữ số
+                'T+90%': format_return,
+                'T+180%': format_return,
+                'T+360%': format_return
+            })
         )
         st.dataframe(styled_df, use_container_width=True)
 
