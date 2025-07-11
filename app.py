@@ -20,8 +20,10 @@ if uploaded_file:
         df.columns = [col.strip().lower() for col in df.columns]
         df['date'] = pd.to_datetime(df['date'], dayfirst=True)
         df['close'] = round(df['close'], 1)
-        df.sort_values("date", inplace=True)
-        df.reset_index(drop=True, inplace=True)
+        
+        # Đảo ngược thứ tự dòng, không sort theo date
+        df = df[::-1].reset_index(drop=True)
+
 
         # Tính MA và ngưỡng
         df['ma'] = df['close'].rolling(ma_length).mean()
