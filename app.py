@@ -35,7 +35,7 @@ if uploaded_file:
                 last_buy_idx = i
 
         # Backtest logic
-        returns = {'T+90%': [], 'T+180%': [], 'T+360%': []}
+        returns = {'T+90 (%)': [], 'T+180 (%)': [], 'T+360 (%)': []}
         detailed_trades = []
         buy_signals = df[df['buy_signal']]
         buy_count = 0
