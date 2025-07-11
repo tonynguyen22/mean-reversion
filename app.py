@@ -25,8 +25,7 @@ if uploaded_file:
 
         # Calculate indicators
         df['ma'] = df['close'].rolling(ma_length).mean()
-        df['std'] = df['close'].rolling(ma_length).std()
-        df['threshold'] = df['ma'] * (1 - percentage_offset / 100) - std_dev_multiplier * df['std']
+        df['threshold'] = df['ma'] * (1 - percentage_offset / 100)
         df['buy_signal'] = False
 
         last_buy_idx = -cooldown_period - 1
