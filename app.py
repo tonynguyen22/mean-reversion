@@ -68,9 +68,7 @@ if uploaded_file:
             'AVG T+360 (%)': round(np.mean(returns['T+360 (%)']), 2) if returns['T+360 (%)'] else 'Chưa đủ nến',
         }
 
-        # Show summary
-        st.subheader("📊 Kết quả tổng hợp")
-        st.dataframe(pd.DataFrame([summary]), use_container_width=True)
+
 
         # Style functions for detailed log
         def highlight_and_format(val):
@@ -83,7 +81,14 @@ if uploaded_file:
             if isinstance(val, (float, int)):
                 return f"{val:.2f}%"
             return val
-
+            
+        # Show summary
+        st.subheader("📊 Kết quả tổng hợp")
+        ketqua_df = pd.DataFrame([summary])
+        avg_cols = ['AVG T+90 (%)', 'AVG T+180 (%)', 'AVG T+360 (%)']
+        ketqua = ketqua_df.style.applymap(highlight_and_format, subset=avg_cols)
+        st.dataframe(pd.DataFrame(ketqua), use_container_width=True)
+        
         # Display styled trade log
         st.subheader("📄 Chi tiết các lệnh mua")
         detailed_df = pd.DataFrame(detailed_trades)
