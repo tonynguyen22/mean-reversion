@@ -63,7 +63,7 @@ if uploaded_file:
         # Summary
         summary = {
             'Số lệnh': buy_count,
-            'AVG T+90 (%)': round(np.mean(returns['T+90 (%)']), 2) if returns['T+90(%)'] else 'Chưa đủ nến',
+            'AVG T+90 (%)': round(np.mean(returns['T+90 (%)']), 2) if returns['T+90 (%)'] else 'Chưa đủ nến',
             'AVG T+180 (%)': round(np.mean(returns['T+180 (%)']), 2) if returns['T+180 (%)'] else 'Chưa đủ nến',
             'AVG T+360 (%)': round(np.mean(returns['T+360 (%)']), 2) if returns['T+360 (%)'] else 'Chưa đủ nến',
         }
