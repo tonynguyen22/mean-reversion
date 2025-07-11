@@ -17,7 +17,7 @@ cooldown_period = st.sidebar.number_input("Thời gian cách mỗi lệnh (dòng
 if uploaded_file:
     try:
         # Đọc và xử lý dữ liệu
-        df = pd.read_excel(uploaded_file)
+        df = pd.read_excel(uploaded_file, dtype={'date': str})
         df.columns = [col.strip().lower() for col in df.columns]
         df['close'] = round(df['close'], 1)
 
